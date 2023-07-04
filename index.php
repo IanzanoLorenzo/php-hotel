@@ -1,65 +1,30 @@
 <?php 
+    require __DIR__.'/partials/variables/hotels.php';
+    $parcheggio;
+    $voto;
 
-$hotels = [
-
-    [
-        'name' => 'Hotel Belvedere',
-        'description' => 'Hotel Belvedere Descrizione',
-        'parking' => true,
-        'vote' => 4,
-        'distance_to_center' => 10.4
-    ],
-    [
-        'name' => 'Hotel Futuro',
-        'description' => 'Hotel Futuro Descrizione',
-        'parking' => true,
-        'vote' => 2,
-        'distance_to_center' => 2
-    ],
-    [
-        'name' => 'Hotel Rivamare',
-        'description' => 'Hotel Rivamare Descrizione',
-        'parking' => false,
-        'vote' => 1,
-        'distance_to_center' => 1
-    ],
-    [
-        'name' => 'Hotel Bellavista',
-        'description' => 'Hotel Bellavista Descrizione',
-        'parking' => false,
-        'vote' => 5,
-        'distance_to_center' => 5.5
-    ],
-    [
-        'name' => 'Hotel Milano',
-        'description' => 'Hotel Milano Descrizione',
-        'parking' => true,
-        'vote' => 2,
-        'distance_to_center' => 50
-    ],
-    [
-        'name' => 'Hotel Roma',
-        'description' => 'Hotel Roma Descrizione',
-        'parking' => true,
-        'vote' => 4,
-        'distance_to_center' => 20
-    ],
-    [
-        'name' => 'Hotel Dubai',
-        'description' => 'Hotel Dubai Descrizione',
-        'parking' => true,
-        'vote' => 5,
-        'distance_to_center' => 1
-    ],
-    [
-        'name' => 'Hotel La Via',
-        'description' => 'Hotel La Via Descrizione',
-        'parking' => false,
-        'vote' => 2,
-        'distance_to_center' => 35
-    ],
-];
-
+    if(isset($_GET)){
+        if(isset($_GET['parcheggio'])){
+            $parcheggio = filter_var($_GET['parcheggio'], FILTER_VALIDATE_BOOLEAN);
+            $tempArray = [];
+            foreach($hotels as $hotel){
+                if($hotel['parking'] === $parcheggio){
+                    $tempArray[] = $hotel;
+                };
+            };  
+            $hotels = $tempArray;
+        };
+        if(isset($_GET['voto'])){
+            $voto = filter_var($_GET['voto'], FILTER_VALIDATE_FLOAT);
+            $tempArray = [];
+            foreach($hotels as $hotel){
+                if($hotel['vote'] >= $voto){
+                    $tempArray[] = $hotel;
+                };
+            };  
+            $hotels = $tempArray;
+        };
+    };
 ?>
 
 <!DOCTYPE html>
@@ -75,21 +40,43 @@ $hotels = [
     <?php include __DIR__.'/partials/header.php'; ?>
     <main>
         <div class="container">
-            <ul class="row g-5 list-unstyled">
-            <?php foreach($hotels as $index => $hotel) { ?>
-                <li class="col-6 col-md-3 ">
-                    <div class="card">
-                        <div class="card-header"><?php echo $hotel['name']; ?></div>
-                        <div class="card-body">
-                            <div><?php echo $hotel['description']; ?></div>
-                            <div><?php echo $hotel['parking'] ? 'Parcheggio interno presente' : 'Parcheggio non presente'; ?></div>
-                            <div><?php echo 'Voto: '.$hotel['vote']; ?></div>
+            <div class="row">
+                <div class="col-12 col-md-3 mb-5">
+                    <form action="index.php" method="GET">
+                        <div class="d-flex flex-column">
+                            <label>Parcheggio</label>
+                            <select name="parcheggio">
+                                <option value="" disabled selected>Scegli</option>
+                                <option value="true">Sì</option>
+                                <option value="false">No</option>
+                            </select>
                         </div>
-                        <div class="card-footer"><?php echo $hotel['distance_to_center'].'km dal centro'; ?></div>
-                    </div>
-                </li>
-            <?php } ?>
-            </ul>
+                        <div class="d-flex flex-column">
+                            <label>Voto</label>
+                            <input name="voto" type="number" min="0" max="5" placeholder="Inserisci un numero da 1 a 5">
+                        </div>
+                        <button type="submit">Cerca</button>
+                        <button type="reset">Cancella</button>
+                    </form>
+                </div>
+                <div class="col-12 col-md-9">
+                    <ul class="row g-5 list-unstyled">
+                        <?php foreach($hotels as $index => $hotel) { ?>
+                            <li class="col-6 col-md-4 col-xl-3">
+                                <div class="card">
+                                    <div class="card-header"><?php echo $hotel['name']; ?></div>
+                                    <div class="card-body">
+                                        <div><?php echo $hotel['description']; ?></div>
+                                        <div><?php echo $hotel['parking'] ? 'Parcheggio interno presente' : 'Parcheggio non presente'; ?></div>
+                                        <div><?php echo 'Voto: '.$hotel['vote']; ?></div>
+                                    </div>
+                                    <div class="card-footer"><?php echo $hotel['distance_to_center'].'km dal centro'; ?></div>
+                                </div>
+                            </li>
+                        <?php } ?>
+                    </ul>
+                </div>
+            </div>
         </div>
     </main>
 </body>
