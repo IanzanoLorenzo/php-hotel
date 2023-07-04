@@ -37,7 +37,27 @@ $hotels = [
         'vote' => 2,
         'distance_to_center' => 50
     ],
-
+    [
+        'name' => 'Hotel Roma',
+        'description' => 'Hotel Roma Descrizione',
+        'parking' => true,
+        'vote' => 4,
+        'distance_to_center' => 20
+    ],
+    [
+        'name' => 'Hotel Dubai',
+        'description' => 'Hotel Dubai Descrizione',
+        'parking' => true,
+        'vote' => 5,
+        'distance_to_center' => 1
+    ],
+    [
+        'name' => 'Hotel La Via',
+        'description' => 'Hotel La Via Descrizione',
+        'parking' => false,
+        'vote' => 2,
+        'distance_to_center' => 35
+    ],
 ];
 
 ?>
@@ -55,19 +75,21 @@ $hotels = [
     <?php include __DIR__.'/components/header.php'; ?>
     <main>
         <div class="container">
-            <div class="row g-5">
+            <ul class="row g-5 list-unstyled">
             <?php foreach($hotels as $index => $hotel) { ?>
-                <div class="col-6 col-md-3">
+                <li class="col-6 col-md-3 ">
                     <div class="card">
                         <div class="card-header"><?php echo $hotel['name']; ?></div>
-                        <div><?php echo $hotel['description']; ?></div>
-                        <div><?php echo $hotel['parking'] ? 'Parcheggio interno' : 'Parcheggio non presente'; ?></div>
-                        <div><?php echo 'Voto: '.$hotel['vote']; ?></div>
-                        <div><?php echo $hotel['distance_to_center'].'km'; ?></div>
+                        <div class="card-body">
+                            <div><?php echo $hotel['description']; ?></div>
+                            <div><?php echo $hotel['parking'] ? 'Parcheggio interno presente' : 'Parcheggio non presente'; ?></div>
+                            <div><?php echo 'Voto: '.$hotel['vote']; ?></div>
+                        </div>
+                        <div class="card-footer"><?php echo $hotel['distance_to_center'].'km dal centro'; ?></div>
                     </div>
-                </div>
+                </li>
             <?php } ?>
-            </div>
+            </ul>
         </div>
     </main>
 </body>
