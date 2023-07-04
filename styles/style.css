@@ -1,0 +1,16 @@
+header{
+    background-color: rgb(255, 156, 7);
+    box-shadow: 0 0 20px;
+}
+
+body{
+    background-color: rgb(255, 218, 162);
+}
+
+.card{
+    background-color: rgb(255, 174, 52);
+}
+
+.card-header{
+    background-color: rgb(255, 156, 7);
+}
