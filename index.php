@@ -72,7 +72,7 @@ $hotels = [
     <link rel="stylesheet" href="./styles/style.css">
 </head>
 <body>
-    <?php include __DIR__.'/components/header.php'; ?>
+    <?php include __DIR__.'/partials/header.php'; ?>
     <main>
         <div class="container">
             <ul class="row g-5 list-unstyled">
