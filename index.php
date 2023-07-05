@@ -3,26 +3,28 @@
     $parcheggio;
     $voto;
 
+    $filteredHotels = $hotels;
+
     if(isset($_GET)){
         if(isset($_GET['parcheggio'])){
             $parcheggio = filter_var($_GET['parcheggio'], FILTER_VALIDATE_BOOLEAN);
             $tempArray = [];
-            foreach($hotels as $hotel){
+            foreach($filteredHotels as $hotel){
                 if($hotel['parking'] === $parcheggio){
                     $tempArray[] = $hotel;
                 };
             };  
-            $hotels = $tempArray;
+            $filteredHotels = $tempArray;
         };
         if(isset($_GET['voto'])){
             $voto = filter_var($_GET['voto'], FILTER_VALIDATE_FLOAT);
             $tempArray = [];
-            foreach($hotels as $hotel){
+            foreach($filteredHotels as $hotel){
                 if($hotel['vote'] >= $voto){
                     $tempArray[] = $hotel;
                 };
             };  
-            $hotels = $tempArray;
+            $filteredHotels = $tempArray;
         };
     };
 ?>
@@ -46,7 +48,7 @@
                         <div class="d-flex flex-column">
                             <label>Parcheggio</label>
                             <select name="parcheggio">
-                                <option value="" disabled selected>Scegli</option>
+                                <option value="" disabled selected>Non importa</option>
                                 <option value="true">Sì</option>
                                 <option value="false">No</option>
                             </select>
@@ -59,22 +61,29 @@
                         <button type="reset">Cancella</button>
                     </form>
                 </div>
-                <div class="col-12 col-md-9">
-                    <ul class="row g-5 list-unstyled">
-                        <?php foreach($hotels as $index => $hotel) { ?>
-                            <li class="col-6 col-md-4 col-xl-3">
-                                <div class="card">
-                                    <div class="card-header"><?php echo $hotel['name']; ?></div>
-                                    <div class="card-body">
-                                        <div><?php echo $hotel['description']; ?></div>
-                                        <div><?php echo $hotel['parking'] ? 'Parcheggio interno presente' : 'Parcheggio non presente'; ?></div>
-                                        <div><?php echo 'Voto: '.$hotel['vote']; ?></div>
-                                    </div>
-                                    <div class="card-footer"><?php echo $hotel['distance_to_center'].'km dal centro'; ?></div>
-                                </div>
-                            </li>
-                        <?php } ?>
-                    </ul>
+                <div class="col-12 col-md-9 card p-0">
+                    <table class="table table-striped m-0">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Descrizione</th>
+                                <th>Parcheggio</th>
+                                <th>Voto</th>
+                                <th>Distanza</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach($filteredHotels as $index => $hotel) { ?>
+                            <tr>
+                                <td><?php echo $hotel['name']; ?></td>
+                                <td><?php echo $hotel['description']; ?></td>
+                                <td><?php echo $hotel['parking'] ? 'Parcheggio interno presente' : 'Parcheggio non presente'; ?></td>
+                                <td><?php echo 'Voto: '.$hotel['vote']; ?></td>
+                                <td><?php echo $hotel['distance_to_center'].'km dal centro'; ?></td>
+                            </tr> 
+                            <?php } ?>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
